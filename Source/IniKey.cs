@@ -13,6 +13,9 @@ using Microsoft.Win32;
 namespace ExIni
 {
 
+    /// <summary>
+    ///     INI Key Node
+    /// </summary>
     public class IniKey
     {
         #region Fields
@@ -20,14 +23,26 @@ namespace ExIni
         #endregion
 
         #region Properties
+        /// <summary>
+        ///     Comments of this Node
+        /// </summary>
         public IniComment Comments
         {
             get { return _comments; }
         }
 
+        /// <summary>
+        ///     Key Name
+        /// </summary>
         public string Key { get; set; }
+        /// <summary>
+        ///     Unresolved Value
+        /// </summary>
         public string RawValue { get; set; }
 
+        /// <summary>
+        ///     Resolved Value
+        /// </summary>
         public string Value
         {
             get { return Resolve(RawValue); }
@@ -36,6 +51,11 @@ namespace ExIni
         #endregion
 
         #region (De)Constructors
+        /// <summary>
+        ///     Creates a new <see cref="IniKey" />
+        /// </summary>
+        /// <param name="key">Key Name</param>
+        /// <param name="value">Key Value</param>
         public IniKey(string key, string value = null)
         {
             Key = key;
@@ -46,15 +66,13 @@ namespace ExIni
         #endregion
 
         #region Public Methods
+        /// <summary>
+        ///     Returns this <see cref="IniKey" /> in INI Format
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             return String.Format("{0}={1}", Key, RawValue);
-        }
-
-        public void SetIfNull(string value)
-        {
-            if (string.IsNullOrEmpty(Value))
-                Value = value;
         }
         #endregion
 

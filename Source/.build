@@ -8,6 +8,7 @@
 		<Optimize>true</Optimize>
 		<ErrorReport>prompt</ErrorReport>
 		<WarningLevel>4</WarningLevel>
+		<DocumentationFile>..\Build\ExIni.xml</DocumentationFile>
 	</PropertyGroup>
 		
 	<Import Project="ExIni.csproj" />

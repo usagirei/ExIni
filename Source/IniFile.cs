@@ -13,6 +13,9 @@ using System.Text;
 namespace ExIni
 {
 
+    /// <summary>
+    ///     INI File Class
+    /// </summary>
     public class IniFile
     {
         #region Fields
@@ -21,16 +24,28 @@ namespace ExIni
         #endregion
 
         #region Properties
+        /// <summary>
+        ///     Creates or returns an existing <see cref="IniSection"/> of this <see cref="IniFile"/>
+        ///     <para />
+        ///     Alias to <see cref="CreateSection"/>
+        /// </summary>
+        /// <param name="sec">Section Name</param>
         public IniSection this[string sec]
         {
             get { return CreateSection(sec); }
         }
 
+        /// <summary>
+        ///     Unrooted Comments
+        /// </summary>
         public IniComment Comments
         {
             get { return _comments; }
         }
 
+        /// <summary>
+        ///     Ini Sections
+        /// </summary>
         public List<IniSection> Sections
         {
             get { return _sections; }
@@ -38,6 +53,9 @@ namespace ExIni
         #endregion
 
         #region (De)Constructors
+        /// <summary>
+        ///     Creates an Empty Ini File
+        /// </summary>
         public IniFile()
         {
             _comments = new IniComment();
@@ -46,6 +64,9 @@ namespace ExIni
         #endregion
 
         #region Public Methods
+        /// <summary>
+        ///     Returns this <see cref="IniFile"/> Contents in Ini Format
+        /// </summary>
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -78,6 +99,10 @@ namespace ExIni
             return sb.ToString();
         }
 
+        /// <summary>
+        ///     Creates or Returns an existing <see cref="IniSection"/>
+        /// </summary>
+        /// <param name="section">Section Name</param>
         public IniSection CreateSection(string section)
         {
             IniSection get = GetSection(section);
@@ -89,18 +114,45 @@ namespace ExIni
             return gen;
         }
 
+        /// <summary>
+        ///     Gets an Existing <see cref="IniSection"/> or null
+        /// </summary>
+        /// <param name="section">Section Name</param>
         public IniSection GetSection(string section)
         {
-            if (HasSection(section))
-                return _sections.FirstOrDefault(iniSection => iniSection.Section == section);
-            return null;
+            return HasSection(section)
+                ? _sections.FirstOrDefault(iniSection => iniSection.Section == section)
+                : null;
         }
 
+        /// <summary>
+        ///     Deletes an <see cref="IniSection"/>
+        /// </summary>
+        /// <param name="section">Key Name</param>
+        /// <returns>True if Deleted</returns>
+        public bool DeleteSection(string section)
+        {
+            if (!HasSection(section))
+                return false;
+            Sections.Remove(GetSection(section));
+            return true;
+        }
+
+        /// <summary>
+        ///     Checks wether an <see cref="IniSection"/> exists
+        /// </summary>
+        /// <param name="section">Section Name</param>
         public bool HasSection(string section)
         {
             return _sections.Any(iniSection => iniSection.Section == section);
         }
 
+        /// <summary>
+        ///     Merges two <see cref="IniFile"/>s into One
+        ///     <para />
+        ///     Conflicting values on this instance will be overriden by the second instance
+        /// </summary>
+        /// <param name="ini">Second Ini File</param>
         public void Merge(IniFile ini)
         {
             Comments.Append(ini.Comments.Comments.ToArray());
@@ -117,6 +169,10 @@ namespace ExIni
             }
         }
 
+        /// <summary>
+        ///     Saves this <see cref="IniFile"/> to Disk
+        /// </summary>
+        /// <param name="filePath">File Path</param>
         public void Save(string filePath)
         {
             File.WriteAllText(filePath, ToString(), Encoding.UTF8);
@@ -124,11 +180,21 @@ namespace ExIni
         #endregion
 
         #region Public Static Methods
+        /// <summary>
+        ///     Parses an Ini File from Disk
+        /// </summary>
+        /// <param name="iniString">File Path</param>
         public static IniFile FromFile(string iniString)
         {
             return IniParser.Parse(File.ReadAllText(iniString));
         }
 
+        /// <summary>
+        ///     Parses an Ini File from a String
+        ///     <para />
+        ///     To Save to a String use <see cref="ToString"/>
+        /// </summary>
+        /// <param name="iniString">String</param>
         public static IniFile FromString(string iniString)
         {
             return IniParser.Parse(iniString);

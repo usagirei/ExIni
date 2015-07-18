@@ -5,6 +5,10 @@ set BUILD=%CD%\.build
 
 set PATH=%MSBUILD%;%PATH%
 
+if not exist "%BUILD%" (
+	mkdir %BUILD%
+)
+
 if not exist "%BUILD%\MSBuild.Community.Tasks.dll" (
 	echo Place a copy of the MSBuildTasks Binaries and targets in the .build directory
 	echo Source can be found at https://github.com/loresoft/msbuildtasks
