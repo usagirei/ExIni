@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Clean;Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+	<PropertyGroup>
+		<OutputPath>..\Build\</OutputPath>
+		<Configuration>Git</Configuration>
+		<DebugType>pdbonly</DebugType>
+		<Optimize>true</Optimize>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+	</PropertyGroup>
+		
+	<Import Project="ExIni.csproj" />
+
+	<!-- Start MSBuild Tasks -->
+	<PropertyGroup>
+		<MSBuildCommunityTasksPath>$(MSBuildProjectDirectory)\..\.build</MSBuildCommunityTasksPath>
+	</PropertyGroup>
+	<Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
+	<!-- End MSBuild Tasks -->
+
+	<Target Name="BeforeBuild">
+		<GitPendingChanges>
+			<Output TaskParameter="HasPendingChanges" PropertyName="Dirty" />
+		</GitPendingChanges>
+		
+		<PropertyGroup>
+			<DirtyTag Condition="'$(Dirty)' == 'True'">Dirty</DirtyTag>
+		</PropertyGroup>
+		
+		<PropertyGroup Condition="'$(Platform)' == 'x86'">
+			<DefineConstants >GIT;TRACE;X86</DefineConstants>
+			<PlatformTarget>x86</PlatformTarget>
+		</PropertyGroup>
+		
+		<PropertyGroup Condition="'$(Platform)' == 'x64'">
+			<DefineConstants >GIT;TRACE;X64</DefineConstants>
+			<PlatformTarget>x64</PlatformTarget>
+		</PropertyGroup>
+		
+		<GitDescribe LightWeight="True" Match="v[0-9]*">
+			<Output TaskParameter="Tag" PropertyName="VersionTag"/>
+			<Output TaskParameter="CommitCount" PropertyName="Revision" />
+		</GitDescribe>
+		<GitVersion Short="False">
+			<Output TaskParameter="CommitHash" PropertyName="CommitHash" />
+		</GitVersion>
+		<GitBranch>
+			<Output TaskParameter="Branch" PropertyName="Branch" />
+		</GitBranch>
+		<AssemblyInfo CodeLanguage="CS" OutputFile="Properties\AssemblyVersion_Git.cs"
+			AssemblyVersion="$(VersionTag.Substring(1)).$(Revision)"
+			AssemblyFileVersion="$(VersionTag.Substring(1)).$(Revision)"
+			AssemblyInformationalVersion="GIT $(Branch) [$(CommitHash)] $(DirtyTag)"/>
+		<ItemGroup>
+			<Compile Include="Properties\AssemblyVersion_Git.cs" />
+		</ItemGroup>
+	</Target>
+	<Target Name="AfterBuild">
+		<Delete Files="Properties\AssemblyVersion_Git.cs" />
+	</Target>
+</Project>
