@@ -25,9 +25,9 @@ namespace ExIni
 
         #region Properties
         /// <summary>
-        ///     Creates or returns an existing <see cref="IniSection"/> of this <see cref="IniFile"/>
+        ///     Creates or returns an existing <see cref="IniSection" /> of this <see cref="IniFile" />
         ///     <para />
-        ///     Alias to <see cref="CreateSection"/>
+        ///     Alias to <see cref="CreateSection" />
         /// </summary>
         /// <param name="sec">Section Name</param>
         public IniSection this[string sec]
@@ -65,7 +65,7 @@ namespace ExIni
 
         #region Public Methods
         /// <summary>
-        ///     Returns this <see cref="IniFile"/> Contents in Ini Format
+        ///     Returns this <see cref="IniFile" /> Contents in Ini Format
         /// </summary>
         public override string ToString()
         {
@@ -100,7 +100,7 @@ namespace ExIni
         }
 
         /// <summary>
-        ///     Creates or Returns an existing <see cref="IniSection"/>
+        ///     Creates or Returns an existing <see cref="IniSection" />
         /// </summary>
         /// <param name="section">Section Name</param>
         public IniSection CreateSection(string section)
@@ -115,18 +115,7 @@ namespace ExIni
         }
 
         /// <summary>
-        ///     Gets an Existing <see cref="IniSection"/> or null
-        /// </summary>
-        /// <param name="section">Section Name</param>
-        public IniSection GetSection(string section)
-        {
-            return HasSection(section)
-                ? _sections.FirstOrDefault(iniSection => iniSection.Section == section)
-                : null;
-        }
-
-        /// <summary>
-        ///     Deletes an <see cref="IniSection"/>
+        ///     Deletes an <see cref="IniSection" />
         /// </summary>
         /// <param name="section">Key Name</param>
         /// <returns>True if Deleted</returns>
@@ -139,7 +128,18 @@ namespace ExIni
         }
 
         /// <summary>
-        ///     Checks wether an <see cref="IniSection"/> exists
+        ///     Gets an Existing <see cref="IniSection" /> or null
+        /// </summary>
+        /// <param name="section">Section Name</param>
+        public IniSection GetSection(string section)
+        {
+            return HasSection(section)
+                ? _sections.FirstOrDefault(iniSection => iniSection.Section == section)
+                : null;
+        }
+
+        /// <summary>
+        ///     Checks wether an <see cref="IniSection" /> exists
         /// </summary>
         /// <param name="section">Section Name</param>
         public bool HasSection(string section)
@@ -148,7 +148,7 @@ namespace ExIni
         }
 
         /// <summary>
-        ///     Merges two <see cref="IniFile"/>s into One
+        ///     Merges two <see cref="IniFile" />s into One
         ///     <para />
         ///     Conflicting values on this instance will be overriden by the second instance
         /// </summary>
@@ -170,11 +170,12 @@ namespace ExIni
         }
 
         /// <summary>
-        ///     Saves this <see cref="IniFile"/> to Disk
+        ///     Saves this <see cref="IniFile" /> to Disk
         /// </summary>
         /// <param name="filePath">File Path</param>
         public void Save(string filePath)
         {
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
             File.WriteAllText(filePath, ToString(), Encoding.UTF8);
         }
         #endregion
@@ -192,7 +193,7 @@ namespace ExIni
         /// <summary>
         ///     Parses an Ini File from a String
         ///     <para />
-        ///     To Save to a String use <see cref="ToString"/>
+        ///     To Save to a String use <see cref="ToString" />
         /// </summary>
         /// <param name="iniString">String</param>
         public static IniFile FromString(string iniString)
