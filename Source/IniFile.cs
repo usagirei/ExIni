@@ -175,7 +175,9 @@ namespace ExIni
         /// <param name="filePath">File Path</param>
         public void Save(string filePath)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            string directoryName = Path.GetDirectoryName(filePath);
+            if(!string.IsNullOrEmpty(directoryName))
+                Directory.CreateDirectory(directoryName);
             File.WriteAllText(filePath, ToString(), Encoding.UTF8);
         }
         #endregion
