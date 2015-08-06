@@ -29,6 +29,11 @@
 			<DirtyTag Condition="'$(Dirty)' == 'True'">Dirty</DirtyTag>
 		</PropertyGroup>
 		
+		<PropertyGroup Condition="'$(Platform)' == 'AnyCPU'">
+			<DefineConstants >GIT;TRACE</DefineConstants>
+			<PlatformTarget>AnyCPU</PlatformTarget>
+		</PropertyGroup>
+		
 		<PropertyGroup Condition="'$(Platform)' == 'x86'">
 			<DefineConstants >GIT;TRACE;X86</DefineConstants>
 			<PlatformTarget>x86</PlatformTarget>

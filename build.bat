@@ -23,7 +23,7 @@ if not exist "%MSBUILD%\msbuild.exe" (
 echo ---------- Cleaning Solution
 del Build\* /q /s
 echo ---------- Building Solution
-msbuild.exe Source\.build /p:Platform=x86
+msbuild.exe Source\.build
 
 :end
 pause
