@@ -15,8 +15,9 @@
 
 ---
 ##### **Building Binaries from Source**
->Place a copy of the [MSBuildTasks] Binaries in the **.build** directory
->You may need to compile it from source
->Execute **build.bat**
+
+* Place a copy of the [MSBuildTasks] Binaries in the **.build** directory
+* You may need to compile it from source
+* Execute **build.bat**
 
 [MSBuildTasks]: https://github.com/loresoft/msbuildtasks
